@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>💖 Invitación</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+  text-align:center;
+}
+
+button{
+  padding:15px 30px;
+  margin:10px;
+  border:none;
+  border-radius:20px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.no{
+  position:relative;
+}
+
+.heart{
+  position:fixed;
+  top:-20px;
+  animation:fall 5s linear;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<h2>¿Quieres celebrar este 14 de febrero conmigo? 💗</h2>
+
+<button onclick="yesAnswer()">Sí 💖</button>
+<button class="no" onclick="noAnswer()">No 🙈</button>
+
+<p id="yesMsg" style="display:none;">💞</p>
+<p id="noMsg" style="display:none;">😢</p>
+<div id="typingMsg"></div>
+
+<script>
+let heartInterval;
+let vibrationInterval;
+
+const text = "Eres mi hermana de otra sangre 💗";
+let index = 0;
+
+function yesAnswer() {
+  document.getElementById("yesMsg").style.display = "block";
+  document.getElementById("noMsg").style.display = "none";
+
+  const typingDiv = document.getElementById("typingMsg");
+  typingDiv.style.display = "block";
+  typingDiv.innerHTML = "";
+  index = 0;
+  typeText();
+
+  if (!heartInterval) {
+    heartInterval = setInterval(createHeart, 300);
+  }
+
+  if (navigator.vibrate && !vibrationInterval) {
+    vibrationInterval = setInterval(() => {
+      navigator.vibrate(200);
+    }, 1000);
+  }
+
+  window.open(
+    "https://www.youtube.com/watch?v=H4mR5G1m8V4&start=60",
+    "_blank"
+  );
+}
+
+function typeText() {
+  const typingDiv = document.getElementById("typingMsg");
+  if (index < text.length) {
+    typingDiv.innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeText, 100);
+  }
+}
+
+function noAnswer() {
+  const btn = document.querySelector(".no");
+  btn.style.transform = 
+    `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`;
+  document.getElementById("noMsg").style.display = "block";
+  document.getElementById("yesMsg").style.display = "none";
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = (Math.random()*20+15)+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
+}
+</script>
+
+</body>
+</html>
